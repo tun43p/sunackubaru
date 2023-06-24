@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "-d",
+        "macos"
+      ],
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Profile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d macos"
+      ],
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Release",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "-d macos",
+      ],
+      "program": "lib/main.dart"
+    },
+  ]
+}
