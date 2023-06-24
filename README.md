@@ -1,16 +1,16 @@
-# sunackubaru
+# Sunackubaru
 
-A new Flutter project.
+## Table of contents
 
-## Getting Started
+- [Sunackubaru](#sunackubaru)
+  - [Table of contents](#table-of-contents)
+  - [Thanks to](#thanks-to)
+  - [License](#license)
 
-This project is a starting point for a Flutter application.
+## Thanks to
 
-A few resources to get you started if this is your first Flutter project:
+[Flutter on Top: Elevate Your App to the macOS Status Bar - Sudhanshu Kumar Yadav](https://dev.to/sky1095/flutter-on-top-elevate-your-app-to-the-macos-status-bar-1lfh)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## License
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+MIT License
