@@ -7,8 +7,11 @@ class TimerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TimerProvider timerProvider = context.watch<TimerProvider>();
+
     return CupertinoPageScaffold(
-      child: Padding(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -17,35 +20,30 @@ class TimerPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                context.watch<TimerProvider>().duration.toString(),
+                timerProvider.duration.toString().split('.').first,
                 style: const TextStyle(
                   fontSize: 24,
                   color: CupertinoColors.systemGrey,
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CupertinoButton(
-                  child: const Text('Start'),
-                  onPressed: () {
-                    context.read<TimerProvider>().start();
-                  },
-                ),
-                CupertinoButton(
-                  child: const Text('Stop'),
-                  onPressed: () {
-                    context.read<TimerProvider>().stop();
-                  },
-                ),
-                CupertinoButton(
-                  child: const Text('Reset'),
-                  onPressed: () {
-                    context.read<TimerProvider>().reset();
-                  },
-                ),
-              ],
+            CupertinoButton.filled(
+              onPressed: timerProvider.running
+                  ? null
+                  : context.read<TimerProvider>().start,
+              child: const Text('Start'),
+            ),
+            CupertinoButton(
+              onPressed: !timerProvider.running
+                  ? null
+                  : context.read<TimerProvider>().stop,
+              child: const Text('Stop'),
+            ),
+            CupertinoButton(
+              onPressed: timerProvider.duration.inSeconds == 0
+                  ? null
+                  : context.read<TimerProvider>().reset,
+              child: const Text('Reset'),
             ),
           ],
         ),

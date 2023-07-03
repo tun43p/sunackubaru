@@ -8,12 +8,12 @@ class TimerProvider with ChangeNotifier {
   Duration _duration = Duration.zero;
   Duration get duration => _duration;
 
-  bool _isRunning = false;
-  bool get isRunning => _isRunning;
+  bool _running = false;
+  bool get running => _running;
 
   void start() {
-    if (!_isRunning) {
-      _isRunning = true;
+    if (!_running) {
+      _running = true;
       notifyListeners();
 
       _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
@@ -24,15 +24,17 @@ class TimerProvider with ChangeNotifier {
   }
 
   void stop() {
-    _timer.cancel();
-    _isRunning = false;
+    if (_running) _timer.cancel();
+
+    _running = false;
     notifyListeners();
   }
 
   void reset() {
-    _timer.cancel();
+    if (_running) _timer.cancel();
+
     _duration = Duration.zero;
-    _isRunning = false;
+    _running = false;
     notifyListeners();
   }
 
