@@ -7,7 +7,9 @@
       "type": "dart",
       "args": [
         "-d",
-        "macos"
+        "macos",
+        "--dart-define-from-file",
+        "config.json"
       ],
       "program": "lib/main.dart"
     },
@@ -17,7 +19,10 @@
       "type": "dart",
       "flutterMode": "profile",
       "args": [
-        "-d macos"
+        "-d",
+        "macos",
+        "--dart-define-from-file",
+        "config.json"
       ],
       "program": "lib/main.dart"
     },
@@ -27,7 +32,10 @@
       "type": "dart",
       "flutterMode": "release",
       "args": [
-        "-d macos",
+        "-d",
+        "macos",
+        "--dart-define-from-file",
+        "config.json"
       ],
       "program": "lib/main.dart"
     },
