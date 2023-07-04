@@ -2,8 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sunackubaru/features/timer/timer_provider.dart';
 
-class TimerPage extends StatelessWidget {
+class TimerPage extends StatefulWidget {
   const TimerPage({super.key});
+
+  @override
+  State<TimerPage> createState() => _TimerPageState();
+}
+
+class _TimerPageState extends State<TimerPage> {
+  late final TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _textEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +32,9 @@ class TimerPage extends StatelessWidget {
     final TimerProvider notifier = context.read<TimerProvider>();
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Text('Timer'),
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.zero,
           child: Text(
             state.duration.toString().split('.').first,
             style: const TextStyle(
@@ -24,18 +43,51 @@ class TimerPage extends StatelessWidget {
             ),
           ),
         ),
-        CupertinoButton.filled(
-          onPressed: state.running ? null : notifier.start,
-          child: const Text('Start'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <CupertinoButton>[
+            CupertinoButton(
+              onPressed: () => state.running
+                  ? notifier.stopTimer()
+                  : notifier.startTimer(
+                      task: _textEditingController.text.isEmpty
+                          ? null
+                          : _textEditingController.text,
+                    ),
+              child: Icon(
+                state.running ? CupertinoIcons.stop : CupertinoIcons.play_arrow,
+              ),
+            ),
+            CupertinoButton(
+              onPressed: state.duration.inSeconds == 0
+                  ? null
+                  : () {
+                      _textEditingController.text = '';
+                      notifier.resetTimer();
+                    },
+              child: const Icon(CupertinoIcons.refresh_thick),
+            ),
+          ],
         ),
-        CupertinoButton(
-          onPressed: !state.running ? null : notifier.stop,
-          child: const Text('Stop'),
-        ),
-        CupertinoButton(
-          onPressed: state.duration.inSeconds == 0 ? null : notifier.reset,
-          child: const Text('Reset'),
-        ),
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              CupertinoTextField(
+                controller: _textEditingController,
+                keyboardType: TextInputType.text,
+                placeholder: 'Task name',
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.tasks.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Map<String, Duration> task = state.tasks[index];
+                  return Text('${task.keys.single} - ${task.values.single}');
+                },
+              )
+            ],
+          ),
+        )
       ],
     );
   }

@@ -1,11 +1,21 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
 import 'package:sunackubaru/features/timer/timer_page.dart';
 
 class Sunackubaru extends StatelessWidget {
-  const Sunackubaru({super.key});
+  Sunackubaru({super.key});
 
   final String _title = 'Sunackubaru';
+
+  final List<Map<String, Widget>> _pages = <Map<String, Widget>>[
+    <String, Widget>{
+      'Timer': const TimerPage(),
+    },
+    <String, Widget>{
+      'Settings': const SettingsPage(),
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,41 +39,22 @@ class Sunackubaru extends StatelessWidget {
           ),
           tabBuilder: (BuildContext context, int index) {
             return CupertinoTabView(
+              defaultTitle: _pages[index].keys.single,
               builder: (BuildContext context) {
-                return _SunackubaruPage(index: index);
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    top: kCupertinoNavigationBarHeight + kDefaultPagePadding,
+                    right: kDefaultPagePadding,
+                    bottom: kCupertinoTabScaffoldHeight + kDefaultPagePadding,
+                    left: kDefaultPagePadding,
+                  ),
+                  child: _pages[index].values.single,
+                );
               },
             );
           },
         ),
       ),
     );
-  }
-}
-
-class _SunackubaruPage extends StatelessWidget {
-  const _SunackubaruPage({required this.index});
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (index) {
-      case 0:
-        return CupertinoTabView(
-          defaultTitle: 'Timer',
-          builder: (BuildContext context) {
-            return const TimerPage();
-          },
-        );
-      case 1:
-        return CupertinoTabView(
-          defaultTitle: 'Settings',
-          builder: (BuildContext context) {
-            return const SettingsPage();
-          },
-        );
-      default:
-        throw Exception('Invalid tab index $index');
-    }
   }
 }

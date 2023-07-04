@@ -11,36 +11,55 @@ class TimerProvider with ChangeNotifier {
   bool _running = false;
   bool get running => _running;
 
-  void start() {
+  List<Map<String, Duration>> _tasks = <Map<String, Duration>>[];
+  List<Map<String, Duration>> get tasks => _tasks;
+
+  Map<String, Duration>? _currentTask;
+  List<Map<String, Duration>> get currentTask => _tasks;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
+
+  void startTimer({String? task}) {
     if (!_running) {
       _running = true;
       notifyListeners();
 
       _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
         _duration = _duration + const Duration(seconds: 1);
+
+        if (task != null) {
+          if (_currentTask == null) {
+            _currentTask = <String, Duration>{task: _duration};
+            _tasks = <Map<String, Duration>>[..._tasks, _currentTask!];
+          } else {
+            _tasks.last = <String, Duration>{
+              _currentTask!.keys.single: _duration
+            };
+          }
+        }
+
         notifyListeners();
       });
     }
   }
 
-  void stop() {
+  void stopTimer() {
     if (_running) _timer.cancel();
 
     _running = false;
     notifyListeners();
   }
 
-  void reset() {
+  void resetTimer() {
     if (_running) _timer.cancel();
 
+    _currentTask = null;
     _duration = Duration.zero;
     _running = false;
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
   }
 }

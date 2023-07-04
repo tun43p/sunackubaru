@@ -15,7 +15,7 @@ void main() {
           create: (_) => SettingsProvider(),
         ),
       ],
-      child: const Sunackubaru(),
+      child: Sunackubaru(),
     ),
   );
 }
