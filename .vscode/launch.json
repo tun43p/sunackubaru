@@ -9,7 +9,7 @@
         "-d",
         "macos",
         "--dart-define-from-file",
-        "config.json"
+        "env.json"
       ],
       "program": "lib/main.dart"
     },
@@ -22,7 +22,7 @@
         "-d",
         "macos",
         "--dart-define-from-file",
-        "config.json"
+        "env.json"
       ],
       "program": "lib/main.dart"
     },
@@ -35,7 +35,7 @@
         "-d",
         "macos",
         "--dart-define-from-file",
-        "config.json"
+        "env.json"
       ],
       "program": "lib/main.dart"
     },
