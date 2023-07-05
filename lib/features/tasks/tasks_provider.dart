@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:sunackubaru/features/timer/tasks_model.dart';
+import 'package:sunackubaru/features/tasks/tasks_model.dart';
 
 class TasksProvider with ChangeNotifier {
   late Timer _timer;

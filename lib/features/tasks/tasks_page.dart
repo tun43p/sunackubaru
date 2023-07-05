@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:sunackubaru/features/timer/tasks_model.dart';
-import 'package:sunackubaru/features/timer/tasks_provider.dart';
-import 'package:sunackubaru/features/timer/tasks_service.dart';
+import 'package:sunackubaru/features/tasks/tasks_model.dart';
+import 'package:sunackubaru/features/tasks/tasks_provider.dart';
+import 'package:sunackubaru/features/tasks/tasks_service.dart';
 
 class TasksPage extends StatelessWidget {
   const TasksPage({super.key});

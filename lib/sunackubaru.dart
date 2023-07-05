@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
-import 'package:sunackubaru/features/timer/tasks_page.dart';
+import 'package:sunackubaru/features/tasks/tasks_page.dart';
 
 class Sunackubaru extends StatelessWidget {
   Sunackubaru({super.key});
