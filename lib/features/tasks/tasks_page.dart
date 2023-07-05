@@ -90,6 +90,7 @@ class _TasksListWidget extends StatelessWidget {
           .map(
             (Task task) {
               return CupertinoListTile(
+                onTap: () => context.read<TasksProvider>().currentTask = task,
                 leading: Icon(
                   CupertinoIcons.doc_text,
                   color: task.name == state.currentTask?.name

@@ -24,6 +24,11 @@ class TasksProvider with ChangeNotifier {
 
   Task? _currentTask;
   Task? get currentTask => _currentTask;
+  set currentTask(Task? newCurrentTask) {
+    _currentTask = newCurrentTask;
+    _duration = newCurrentTask?.duration ?? Duration.zero;
+    notifyListeners();
+  }
 
   @override
   void dispose() {
@@ -66,8 +71,13 @@ class TasksProvider with ChangeNotifier {
         _currentTask = Task(_textEditingController.text, _duration);
         _tasks = <Task>[..._tasks, _currentTask!];
       } else {
-        // TODO(tun43p): Update this implementation to be able to edit the new selected one and not only the last one
-        _tasks.last = Task(_currentTask!.name, _duration);
+        _currentTask = Task(_currentTask!.name, _duration);
+        _tasks = _tasks
+            .map(
+              (Task task) =>
+                  task.name == _currentTask!.name ? _currentTask! : task,
+            )
+            .toList();
       }
 
       if (_textEditingController.text.isNotEmpty) {
@@ -96,8 +106,8 @@ class TasksProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _setStatus(({String message, TaskStatus type}) status) {
-    _status = status;
+  void _setStatus(({String message, TaskStatus type}) newStatus) {
+    _status = newStatus;
 
     _statusTimer = Timer(const Duration(seconds: 3), () {
       _status = null;
