@@ -10,6 +10,7 @@ class TasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TasksProvider state = context.watch<TasksProvider>();
+    final TasksProvider notifier = context.read<TasksProvider>();
 
     return SingleChildScrollView(
       child: Column(
@@ -21,7 +22,7 @@ class TasksPage extends StatelessWidget {
             controller: state.textEditingController,
             keyboardType: TextInputType.text,
             placeholder: 'Nom de la tâche',
-            // TODO(tun43p): Create disabled style for CupertinoTextField
+            onEditingComplete: notifier.start,
           ),
           if (state.status != null)
             Text(
