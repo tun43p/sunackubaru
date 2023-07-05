@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 class TimerProvider with ChangeNotifier {
   late Timer _timer;
@@ -15,7 +15,7 @@ class TimerProvider with ChangeNotifier {
   List<Map<String, Duration>> get tasks => _tasks;
 
   Map<String, Duration>? _currentTask;
-  List<Map<String, Duration>> get currentTask => _tasks;
+  Map<String, Duration>? get currentTask => _currentTask;
 
   @override
   void dispose() {
@@ -23,7 +23,7 @@ class TimerProvider with ChangeNotifier {
     _timer.cancel();
   }
 
-  void startTimer({String? task}) {
+  void start({String? task}) {
     if (!_running) {
       _running = true;
       notifyListeners();
@@ -47,14 +47,14 @@ class TimerProvider with ChangeNotifier {
     }
   }
 
-  void stopTimer() {
+  void stop() {
     if (_running) _timer.cancel();
 
     _running = false;
     notifyListeners();
   }
 
-  void resetTimer() {
+  void reset() {
     if (_running) _timer.cancel();
 
     _currentTask = null;
