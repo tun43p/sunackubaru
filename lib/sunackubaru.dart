@@ -8,13 +8,18 @@ class Sunackubaru extends StatelessWidget {
 
   final String _title = 'Sunackubaru';
 
-  final List<Map<String, Widget>> _pages = <Map<String, Widget>>[
-    <String, Widget>{
-      'Timer': const TimerPage(),
-    },
-    <String, Widget>{
-      'Settings': const SettingsPage(),
-    },
+  final List<({String name, Widget widget, IconData icon})> _pages =
+      <({String name, Widget widget, IconData icon})>[
+    (
+      name: 'Timer',
+      widget: const TimerPage(),
+      icon: CupertinoIcons.timer,
+    ),
+    (
+      name: 'Settings',
+      widget: const SettingsPage(),
+      icon: CupertinoIcons.settings
+    ),
   ];
 
   @override
@@ -28,25 +33,23 @@ class Sunackubaru extends StatelessWidget {
         ),
         child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.timer),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.settings),
-              ),
-            ],
+            items: _pages
+                .map(
+                  (({IconData icon, String name, Widget widget}) page) =>
+                      BottomNavigationBarItem(icon: Icon(page.icon)),
+                )
+                .toList(),
           ),
           tabBuilder: (BuildContext context, int index) {
             return CupertinoTabView(
-              defaultTitle: _pages[index].keys.single,
+              defaultTitle: _pages[index].name,
               builder: (BuildContext context) {
                 return Padding(
                   padding: const EdgeInsets.only(
                     top: kCupertinoNavigationBarHeight,
                     bottom: kCupertinoTabScaffoldHeight,
                   ),
-                  child: _pages[index].values.single,
+                  child: _pages[index].widget,
                 );
               },
             );
