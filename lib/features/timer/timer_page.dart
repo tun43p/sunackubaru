@@ -15,9 +15,12 @@ class TimerPage extends StatelessWidget {
         children: <Widget>[
           const _TimerControlsWidget(),
           CupertinoTextField(
+            autofocus: true,
+            enabled: state.currentTask == null,
             controller: state.textEditingController,
             keyboardType: TextInputType.text,
             placeholder: 'Nom de la tâche',
+            // TODO(tun43p): Create disabled style for CupertinoTextField
           ),
           if (state.status != null)
             Text(
@@ -26,7 +29,7 @@ class TimerPage extends StatelessWidget {
                 color: state.status!.type.color,
               ),
             ),
-          const _TimerTasksWidget()
+          if (state.tasks.isNotEmpty) const _TimerTasksWidget()
         ],
       ),
     );
