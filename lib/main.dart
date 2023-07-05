@@ -8,11 +8,11 @@ void main() {
   runApp(
     MultiProvider(
       providers: <ChangeNotifierProvider<ChangeNotifier>>[
-        ChangeNotifierProvider<TimerProvider>(
-          create: (_) => TimerProvider(),
-        ),
         ChangeNotifierProvider<SettingsProvider>(
           create: (_) => SettingsProvider(),
+        ),
+        ChangeNotifierProvider<TimerProvider>(
+          create: (_) => TimerProvider(),
         ),
       ],
       child: Sunackubaru(),
