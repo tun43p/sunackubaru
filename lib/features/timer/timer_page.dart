@@ -91,8 +91,8 @@ class _TimerTasksWidget extends StatelessWidget {
                 leading: Icon(
                   CupertinoIcons.doc_text,
                   color: name == state.currentTask?.keys.single
-                      ? CupertinoColors.activeGreen
-                      : CupertinoColors.activeBlue,
+                      ? CupertinoColors.systemGreen
+                      : CupertinoColors.systemBlue,
                 ),
                 key: ValueKey<String>(name),
                 title: Text(name),
