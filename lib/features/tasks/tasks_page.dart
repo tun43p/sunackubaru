@@ -15,7 +15,7 @@ class TasksPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const _TimerControlsWidget(),
+          const _TasksTimerWidget(),
           CupertinoTextField(
             autofocus: true,
             enabled: state.currentTask == null,
@@ -31,15 +31,15 @@ class TasksPage extends StatelessWidget {
                 color: state.status!.type.color,
               ),
             ),
-          if (state.tasks.isNotEmpty) const _TimerTasksWidget()
+          if (state.tasks.isNotEmpty) const _TasksListWidget()
         ],
       ),
     );
   }
 }
 
-class _TimerControlsWidget extends StatelessWidget {
-  const _TimerControlsWidget();
+class _TasksTimerWidget extends StatelessWidget {
+  const _TasksTimerWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +77,8 @@ class _TimerControlsWidget extends StatelessWidget {
   }
 }
 
-class _TimerTasksWidget extends StatelessWidget {
-  const _TimerTasksWidget();
+class _TasksListWidget extends StatelessWidget {
+  const _TasksListWidget();
 
   @override
   Widget build(BuildContext context) {
