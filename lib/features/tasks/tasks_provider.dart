@@ -34,7 +34,6 @@ class TasksProvider with ChangeNotifier {
   void dispose() {
     super.dispose();
     _textEditingController.dispose();
-
     _timer.cancel();
     _statusTimer.cancel();
   }
@@ -102,7 +101,12 @@ class TasksProvider with ChangeNotifier {
     _duration = Duration.zero;
     _running = false;
     _textEditingController.text = '';
+    notifyListeners();
+  }
 
+  void delete(Task oldTask) {
+    if (_currentTask == oldTask) reset();
+    _tasks = _tasks.where((Task task) => task != oldTask).toList();
     notifyListeners();
   }
 

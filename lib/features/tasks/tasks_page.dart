@@ -83,25 +83,39 @@ class _TasksListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TasksProvider state = context.watch<TasksProvider>();
+    final TasksProvider notifier = context.read<TasksProvider>();
 
     return CupertinoListSection(
       header: const Text('Tâches'),
       children: state.tasks
           .map(
             (Task task) {
+              final bool isCurrentTask = task.name == state.currentTask?.name;
+
               return CupertinoListTile(
-                onTap: () => context.read<TasksProvider>().currentTask = task,
-                leading: Icon(
-                  CupertinoIcons.doc_text,
-                  color: task.name == state.currentTask?.name
-                      ? CupertinoColors.systemGreen
-                      : CupertinoColors.systemBlue,
-                ),
                 key: ValueKey<String>(task.name),
                 title: Text(task.name),
                 additionalInfo: Text(
                   TasksService.formatDuration(task.duration),
                 ),
+                leading: Icon(
+                  CupertinoIcons.doc_text,
+                  color: isCurrentTask
+                      ? CupertinoColors.systemGreen
+                      : CupertinoColors.systemBlue,
+                ),
+                trailing: CupertinoButton(
+                  onPressed: isCurrentTask && state.running
+                      ? null
+                      : () => notifier.delete(task),
+                  child: Icon(
+                    CupertinoIcons.delete,
+                    color: isCurrentTask && state.running
+                        ? CupertinoColors.systemGrey
+                        : CupertinoColors.systemRed,
+                  ),
+                ),
+                onTap: () => notifier.currentTask = task,
               );
             },
           )
