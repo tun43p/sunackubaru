@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
-import 'package:sunackubaru/features/timer/timer_page.dart';
+import 'package:sunackubaru/features/timer/tasks_page.dart';
 
 class Sunackubaru extends StatelessWidget {
   Sunackubaru({super.key});
@@ -11,8 +11,8 @@ class Sunackubaru extends StatelessWidget {
   final List<({String name, Widget widget, IconData icon})> _pages =
       <({String name, Widget widget, IconData icon})>[
     (
-      name: 'Timer',
-      widget: const TimerPage(),
+      name: 'Tasks',
+      widget: const TasksPage(),
       icon: CupertinoIcons.timer,
     ),
     (

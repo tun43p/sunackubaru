@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:sunackubaru/features/timer/timer_provider.dart';
-import 'package:sunackubaru/features/timer/timer_utils.dart';
+import 'package:sunackubaru/features/timer/tasks_model.dart';
+import 'package:sunackubaru/features/timer/tasks_provider.dart';
+import 'package:sunackubaru/features/timer/tasks_service.dart';
 
-class TimerPage extends StatelessWidget {
-  const TimerPage({super.key});
+class TasksPage extends StatelessWidget {
+  const TasksPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TimerProvider state = context.watch<TimerProvider>();
+    final TasksProvider state = context.watch<TasksProvider>();
 
     return SingleChildScrollView(
       child: Column(
@@ -41,13 +42,13 @@ class _TimerControlsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TimerProvider state = context.watch<TimerProvider>();
-    final TimerProvider notifier = context.read<TimerProvider>();
+    final TasksProvider state = context.watch<TasksProvider>();
+    final TasksProvider notifier = context.read<TasksProvider>();
 
     return Column(
       children: <Widget>[
         Text(
-          TimerUtils.formatDuration(state.duration),
+          TasksService.formatDuration(state.duration),
           style: const TextStyle(
             fontSize: 24,
             color: CupertinoColors.systemGrey,
@@ -80,27 +81,24 @@ class _TimerTasksWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TimerProvider state = context.watch<TimerProvider>();
+    final TasksProvider state = context.watch<TasksProvider>();
 
     return CupertinoListSection(
       header: const Text('Tâches'),
       children: state.tasks
           .map(
-            (Map<String, Duration> task) {
-              final String name = task.keys.single;
-              final Duration duration = task.values.single;
-
+            (Task task) {
               return CupertinoListTile(
                 leading: Icon(
                   CupertinoIcons.doc_text,
-                  color: name == state.currentTask?.keys.single
+                  color: task.name == state.currentTask?.name
                       ? CupertinoColors.systemGreen
                       : CupertinoColors.systemBlue,
                 ),
-                key: ValueKey<String>(name),
-                title: Text(name),
+                key: ValueKey<String>(task.name),
+                title: Text(task.name),
                 additionalInfo: Text(
-                  TimerUtils.formatDuration(duration),
+                  TasksService.formatDuration(task.duration),
                 ),
               );
             },

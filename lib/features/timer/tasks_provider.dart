@@ -1,18 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:sunackubaru/features/timer/tasks_model.dart';
 
-enum TimerStatus {
-  error(CupertinoColors.systemRed),
-  success(CupertinoColors.systemGreen),
-  warning(CupertinoColors.systemOrange);
-
-  const TimerStatus(this.color);
-
-  final Color color;
-}
-
-class TimerProvider with ChangeNotifier {
+class TasksProvider with ChangeNotifier {
   late Timer _timer;
   late Timer _statusTimer;
 
@@ -25,14 +16,14 @@ class TimerProvider with ChangeNotifier {
   bool _running = false;
   bool get running => _running;
 
-  ({TimerStatus type, String message})? _status;
-  ({TimerStatus type, String message})? get status => _status;
+  ({String message, TaskStatus type})? _status;
+  ({String message, TaskStatus type})? get status => _status;
 
-  List<Map<String, Duration>> _tasks = <Map<String, Duration>>[];
-  List<Map<String, Duration>> get tasks => _tasks;
+  List<Task> _tasks = <Task>[];
+  List<Task> get tasks => _tasks;
 
-  Map<String, Duration>? _currentTask;
-  Map<String, Duration>? get currentTask => _currentTask;
+  Task? _currentTask;
+  Task? get currentTask => _currentTask;
 
   @override
   void dispose() {
@@ -47,7 +38,7 @@ class TimerProvider with ChangeNotifier {
     if (_textEditingController.text.isEmpty && _currentTask == null) {
       _setStatus(
         (
-          type: TimerStatus.error,
+          type: TaskStatus.error,
           message: 'Merci de donner un nom à votre tâche.',
         ),
       );
@@ -55,12 +46,11 @@ class TimerProvider with ChangeNotifier {
     }
 
     if (_tasks.any(
-      (Map<String, Duration> task) =>
-          task.keys.single == _textEditingController.text,
+      (Task task) => task.name == _textEditingController.text,
     )) {
       _setStatus(
         (
-          type: TimerStatus.error,
+          type: TaskStatus.error,
           message: 'Une tâche avec ce nom existe déjà.',
         ),
       );
@@ -73,12 +63,11 @@ class TimerProvider with ChangeNotifier {
       _duration = _duration + const Duration(seconds: 1);
 
       if (_currentTask == null) {
-        _currentTask = <String, Duration>{
-          _textEditingController.text: _duration
-        };
-        _tasks = <Map<String, Duration>>[..._tasks, _currentTask!];
+        _currentTask = Task(_textEditingController.text, _duration);
+        _tasks = <Task>[..._tasks, _currentTask!];
       } else {
-        _tasks.last = <String, Duration>{_currentTask!.keys.single: _duration};
+        // TODO(tun43p): Update this implementation to be able to edit the new selected one and not only the last one
+        _tasks.last = Task(_currentTask!.name, _duration);
       }
 
       if (_textEditingController.text.isNotEmpty) {
@@ -107,7 +96,7 @@ class TimerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _setStatus(({TimerStatus type, String message}) status) {
+  void _setStatus(({String message, TaskStatus type}) status) {
     _status = status;
 
     _statusTimer = Timer(const Duration(seconds: 3), () {
