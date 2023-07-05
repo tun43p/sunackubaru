@@ -43,10 +43,8 @@ class Sunackubaru extends StatelessWidget {
               builder: (BuildContext context) {
                 return Padding(
                   padding: const EdgeInsets.only(
-                    top: kCupertinoNavigationBarHeight + kDefaultPagePadding,
-                    right: kDefaultPagePadding,
-                    bottom: kCupertinoTabScaffoldHeight + kDefaultPagePadding,
-                    left: kDefaultPagePadding,
+                    top: kCupertinoNavigationBarHeight,
+                    bottom: kCupertinoTabScaffoldHeight,
                   ),
                   child: _pages[index].values.single,
                 );

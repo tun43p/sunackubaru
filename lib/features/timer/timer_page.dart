@@ -1,9 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sunackubaru/features/timer/timer_provider.dart';
+import 'package:sunackubaru/features/timer/timer_utils.dart';
 
 class TimerPage extends StatelessWidget {
   const TimerPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TimerProvider state = context.watch<TimerProvider>();
+
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          const _TimerControlsWidget(),
+          CupertinoTextField(
+            controller: state.textEditingController,
+            keyboardType: TextInputType.text,
+            placeholder: 'Nom de la tâche',
+          ),
+          if (state.status != null)
+            Text(
+              state.status!.message,
+              style: TextStyle(
+                color: state.status!.type.color,
+              ),
+            ),
+          const _TimerTasksWidget()
+        ],
+      ),
+    );
+  }
+}
+
+class _TimerControlsWidget extends StatelessWidget {
+  const _TimerControlsWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -12,27 +43,11 @@ class TimerPage extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        if (state.status != null)
-          ColoredBox(
-            color: state.status!.type.color,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                state.status!.message,
-                style: const TextStyle(
-                  color: CupertinoColors.white,
-                ),
-              ),
-            ),
-          ),
-        Padding(
-          padding: EdgeInsets.zero,
-          child: Text(
-            state.duration.toString().split('.').first,
-            style: const TextStyle(
-              fontSize: 24,
-              color: CupertinoColors.systemGrey,
-            ),
+        Text(
+          TimerUtils.formatDuration(state.duration),
+          style: const TextStyle(
+            fontSize: 24,
+            color: CupertinoColors.systemGrey,
           ),
         ),
         Row(
@@ -41,39 +56,55 @@ class TimerPage extends StatelessWidget {
             CupertinoButton(
               onPressed: state.running ? notifier.stop : notifier.start,
               child: Icon(
-                state.running ? CupertinoIcons.stop : CupertinoIcons.play_arrow,
+                state.running
+                    ? CupertinoIcons.pause
+                    : CupertinoIcons.play_arrow,
               ),
             ),
             CupertinoButton(
               onPressed: state.duration.inSeconds == 0 ? null : notifier.reset,
-              child: const Icon(CupertinoIcons.refresh_thick),
+              child: const Icon(CupertinoIcons.stop),
             ),
-          ],
-        ),
-        // TODO(tun43p): Fix scroll
-        ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            if (state.currentTask != null)
-              Text('Tâche en cours: ${state.currentTask!.keys.single}'),
-            CupertinoTextField(
-              controller: state.textEditingController,
-              keyboardType: TextInputType.text,
-              placeholder: 'Nom de la tâche',
-            ),
-            ...state.tasks
-                .where(
-              (Map<String, Duration> task) =>
-                  task.keys.single != state.currentTask?.keys.single,
-            )
-                .map(
-              (Map<String, Duration> task) {
-                return Text(task.toString());
-              },
-            )
           ],
         ),
       ],
+    );
+  }
+}
+
+class _TimerTasksWidget extends StatelessWidget {
+  const _TimerTasksWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    final TimerProvider state = context.watch<TimerProvider>();
+
+    return CupertinoListSection(
+      header: const Text('Tâches'),
+      children: state.tasks
+          .map(
+            (Map<String, Duration> task) {
+              final String name = task.keys.single;
+              final Duration duration = task.values.single;
+
+              return CupertinoListTile(
+                leading: Icon(
+                  CupertinoIcons.doc_text,
+                  color: name == state.currentTask?.keys.single
+                      ? CupertinoColors.activeGreen
+                      : CupertinoColors.activeBlue,
+                ),
+                key: ValueKey<String>(name),
+                title: Text(name),
+                additionalInfo: Text(
+                  TimerUtils.formatDuration(duration),
+                ),
+              );
+            },
+          )
+          .toList()
+          .reversed
+          .toList(),
     );
   }
 }

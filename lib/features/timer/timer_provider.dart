@@ -54,6 +54,19 @@ class TimerProvider with ChangeNotifier {
       return;
     }
 
+    if (_tasks.any(
+      (Map<String, Duration> task) =>
+          task.keys.single == _textEditingController.text,
+    )) {
+      _setStatus(
+        (
+          type: TimerStatus.error,
+          message: 'Une tâche avec ce nom existe déjà.',
+        ),
+      );
+      return;
+    }
+
     _running = true;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
