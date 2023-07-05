@@ -25,7 +25,6 @@ class TimerPage extends StatelessWidget {
               ),
             ),
           ),
-
         Padding(
           padding: EdgeInsets.zero,
           child: Text(
