@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
+import 'package:sunackubaru/core/storage/storage_service.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
 
 class TasksProvider with ChangeNotifier {
@@ -22,6 +23,10 @@ class TasksProvider with ChangeNotifier {
 
   List<Task> _tasks = <Task>[];
   List<Task> get tasks => _tasks;
+  set tasks(List<Task> newTasks) {
+    _tasks = newTasks;
+    notifyListeners();
+  }
 
   Task? _currentTask;
   Task? get currentTask => _currentTask;
@@ -39,7 +44,7 @@ class TasksProvider with ChangeNotifier {
     _statusTimer.cancel();
   }
 
-  void start() {
+  Future<void> start() async {
     if (_textEditingController.text.isEmpty && _currentTask == null) {
       _setStatus(
         (
@@ -87,27 +92,38 @@ class TasksProvider with ChangeNotifier {
       notifyListeners();
     });
 
+    await StorageService.setTasks(_tasks);
+
     notifyListeners();
   }
 
-  void stop() {
+  Future<void> stop() async {
     _timer.cancel();
     _running = false;
+
+    await StorageService.setTasks(_tasks);
+
     notifyListeners();
   }
 
-  void reset() {
+  Future<void> reset() async {
     _timer.cancel();
     _currentTask = null;
     _duration = Duration.zero;
     _running = false;
     _textEditingController.text = '';
+
+    await StorageService.setTasks(_tasks);
+
     notifyListeners();
   }
 
-  void delete(Task oldTask) {
-    if (_currentTask == oldTask) reset();
+  Future<void> delete(Task oldTask) async {
+    if (_currentTask == oldTask) await reset();
     _tasks = _tasks.where((Task task) => task != oldTask).toList();
+
+    await StorageService.setTasks(_tasks);
+
     notifyListeners();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
@@ -146,7 +148,7 @@ class _TasksListWidget extends StatelessWidget {
                   trailing: CupertinoButton(
                     onPressed: isCurrentTask && state.running
                         ? null
-                        : () => notifier.delete(task),
+                        : () => unawaited(notifier.delete(task)),
                     child: const Icon(CupertinoIcons.delete),
                   ),
                   onTap: () => notifier.currentTask = task,
