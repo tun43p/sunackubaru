@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
@@ -59,7 +60,7 @@ class _TasksTimerWidget extends StatelessWidget {
               ),
               const SizedBox(height: kDefaultPageSpace / 2),
               Text(
-                TasksService.formatDuration(state.duration),
+                GetIt.I.get<TasksService>().formatDuration(state.duration),
                 style: const TextStyle(
                   fontSize: 24,
                   color: CupertinoColors.white,
@@ -137,7 +138,7 @@ class _TasksListWidget extends StatelessWidget {
                   key: ValueKey<String>(task.name),
                   title: Text(task.name),
                   additionalInfo: Text(
-                    TasksService.formatDuration(task.duration),
+                    GetIt.I.get<TasksService>().formatDuration(task.duration),
                   ),
                   leading: Icon(
                     CupertinoIcons.doc_text,

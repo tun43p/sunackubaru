@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/storage/storage_service.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
+import 'package:sunackubaru/features/settings/settings_provider.dart';
 import 'package:sunackubaru/features/tasks/tasks_page.dart';
 import 'package:sunackubaru/features/tasks/tasks_provider.dart';
-
-import 'features/tasks/tasks_model.dart';
 
 class Sunackubaru extends StatefulWidget {
   const Sunackubaru({super.key});
@@ -38,11 +38,18 @@ class _SunackubaruState extends State<Sunackubaru> {
   void initState() {
     super.initState();
 
-    unawaited(
-      StorageService.getTasks().then(
-        (List<Task> value) => context.read<TasksProvider>().tasks = value,
-      ),
-    );
+    unawaited(_initState());
+  }
+
+  Future<void> _initState() async {
+    await GetIt.I.get<StorageService>().init();
+
+    if (mounted) {
+      context.read<SettingsProvider>().gitHubToken =
+          GetIt.I.get<StorageService>().gitHubToken;
+
+      context.read<TasksProvider>().tasks = GetIt.I.get<StorageService>().tasks;
+    }
   }
 
   @override

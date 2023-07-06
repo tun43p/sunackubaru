@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/storage/storage_service.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
@@ -67,6 +68,11 @@ class TasksProvider with ChangeNotifier {
       return;
     }
 
+    if (_textEditingController.text.isNotEmpty &&
+        _textEditingController.text.contains('github.com')) {
+      // TODO(tun43): Add github integration
+    }
+
     _running = true;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
@@ -92,7 +98,7 @@ class TasksProvider with ChangeNotifier {
       notifyListeners();
     });
 
-    await StorageService.setTasks(_tasks);
+    await GetIt.I.get<StorageService>().setTasks(_tasks);
 
     notifyListeners();
   }
@@ -101,7 +107,7 @@ class TasksProvider with ChangeNotifier {
     _timer.cancel();
     _running = false;
 
-    await StorageService.setTasks(_tasks);
+    await GetIt.I.get<StorageService>().setTasks(_tasks);
 
     notifyListeners();
   }
@@ -113,7 +119,7 @@ class TasksProvider with ChangeNotifier {
     _running = false;
     _textEditingController.text = '';
 
-    await StorageService.setTasks(_tasks);
+    await GetIt.I.get<StorageService>().setTasks(_tasks);
 
     notifyListeners();
   }
@@ -122,7 +128,7 @@ class TasksProvider with ChangeNotifier {
     if (_currentTask == oldTask) await reset();
     _tasks = _tasks.where((Task task) => task != oldTask).toList();
 
-    await StorageService.setTasks(_tasks);
+    await GetIt.I.get<StorageService>().setTasks(_tasks);
 
     notifyListeners();
   }

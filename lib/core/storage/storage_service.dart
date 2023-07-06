@@ -4,28 +4,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
 
 class StorageService {
-  static Future<void> clearStorage() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+  late final SharedPreferences _sharedPreferences;
 
-    await sharedPreferences.clear();
+  Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static Future<void> setTasks(List<Task> tasks) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+  Future<void> clearStorage() async {
+    await _sharedPreferences.clear();
+  }
 
+  Future<void> setGitHubToken(String token) async {
+    await _sharedPreferences.setString('github_token', token);
+  }
+
+  String? get gitHubToken {
+    return _sharedPreferences.getString('github_token');
+  }
+
+  Future<void> setTasks(List<Task> tasks) async {
     final List<String> tasksJson =
         tasks.map((Task task) => jsonEncode(task.toJson())).toList();
 
-    await sharedPreferences.setStringList('tasks', tasksJson);
+    await _sharedPreferences.setStringList('tasks', tasksJson);
   }
 
-  static Future<List<Task>> getTasks() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
-    final List<String>? tasksJson = sharedPreferences.getStringList('tasks');
+  List<Task> get tasks {
+    final List<String>? tasksJson = _sharedPreferences.getStringList('tasks');
 
     if (tasksJson != null) {
       final List<Task> tasks = tasksJson

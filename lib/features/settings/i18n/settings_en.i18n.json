@@ -1,5 +1,8 @@
 {
   "title": "Settings",
+  "github": {
+    "placeholder": "Your GitHub API token"
+  },
   "storage": {
     "option": "Delete local data"
   }
