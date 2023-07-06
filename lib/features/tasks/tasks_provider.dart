@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
 
 class TasksProvider with ChangeNotifier {
@@ -43,7 +44,7 @@ class TasksProvider with ChangeNotifier {
       _setStatus(
         (
           type: TaskStatus.error,
-          message: 'Merci de donner un nom à votre tâche.',
+          message: t.tasks.errors.no_task_name,
         ),
       );
       return;
@@ -55,7 +56,7 @@ class TasksProvider with ChangeNotifier {
       _setStatus(
         (
           type: TaskStatus.error,
-          message: 'Une tâche avec ce nom existe déjà.',
+          message: t.tasks.errors.task_already_exists,
         ),
       );
       return;

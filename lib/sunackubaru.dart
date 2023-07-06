@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
 import 'package:sunackubaru/features/tasks/tasks_page.dart';
@@ -6,17 +7,15 @@ import 'package:sunackubaru/features/tasks/tasks_page.dart';
 class Sunackubaru extends StatelessWidget {
   Sunackubaru({super.key});
 
-  final String _title = 'Sunackubaru';
-
   final List<({String name, Widget widget, IconData icon})> _pages =
       <({String name, Widget widget, IconData icon})>[
     (
-      name: 'Tasks',
+      name: t.tasks.title,
       widget: const TasksPage(),
       icon: CupertinoIcons.timer,
     ),
     (
-      name: 'Settings',
+      name: t.settings.title,
       widget: const SettingsPage(),
       icon: CupertinoIcons.settings
     ),
@@ -25,11 +24,11 @@ class Sunackubaru extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      title: _title,
+      title: t.core.title,
       theme: const CupertinoThemeData(),
       home: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(_title),
+          middle: Text(t.core.title),
         ),
         child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(

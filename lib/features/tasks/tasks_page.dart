@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
 import 'package:sunackubaru/features/tasks/tasks_provider.dart';
@@ -48,7 +49,7 @@ class _TasksTimerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                state.currentTask?.name ?? 'Aucune tâche en cours',
+                state.currentTask?.name ?? t.tasks.errors.no_current_task,
                 style: TextStyle(
                   fontSize: 12,
                   color: CupertinoColors.systemGrey.withOpacity(0.5),
@@ -105,7 +106,7 @@ class _TaskInputWidget extends StatelessWidget {
         enabled: state.currentTask == null,
         controller: state.textEditingController,
         keyboardType: TextInputType.text,
-        placeholder: 'Nom de la tâche',
+        placeholder: t.tasks.task_name,
         onEditingComplete: notifier.start,
       ),
     );
@@ -121,7 +122,7 @@ class _TasksListWidget extends StatelessWidget {
     final TasksProvider notifier = context.read<TasksProvider>();
 
     return CupertinoListSection(
-      header: const Text('Tâches'),
+      header: Text(t.tasks.title),
       children: state.tasks
           .map(
             (Task task) {

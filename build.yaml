@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          namespaces: true
+          output_directory: lib/core/i18n
+          output_file_name: i18n.g.dart
+          output_format: multiple_files
+          base_locale: fr
+          fallback_strategy: base_locale
+          translation_class_visibility: public

@@ -13,14 +13,27 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.5
+  slang: ^3.19.0
+  slang_flutter: ^3.19.0
 
 dev_dependencies:
   blackfoot_flutter_lint: ^1.1.0
+  build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
+  slang_build_runner: ^3.19.0
 
 flutter:
   uses-material-design: true
 
 scripts:
-  run: flutter run -d macos
+  run: flutter run -d macos --dart-define-from-file=env.json
+  analyze: flutter analyze
+  get: flutter pub get
+  gen:
+    build: flutter pub run build_runner build --delete-conflicting-outputs
+    watch: flutter pub run build_runner watch --delete-conflicting-outputs
+  start:
+    debug: flutter run -d macos --dart-define-from-file=env.json
+    release: flutter run -d macos --dart-define-from-file=env.json --release
+  test: flutter test -d macos --dart-define-from-file=env.json

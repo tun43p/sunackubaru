@@ -1,0 +1,9 @@
+{
+  "title": "Tâches",
+  "task_name": "Nom de la tâche",
+  "errors": {
+    "no_current_task": "Aucune tâche en cours",
+    "no_task_name": "Veuillez entrer un nom de tâche",
+    "task_already_exists": "Une tâche avec ce nom existe déjà"
+  }
+}
