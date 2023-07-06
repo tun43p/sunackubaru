@@ -1,7 +1,6 @@
 {
   "title": "Settings",
   "storage": {
-    "option": "Delete local data",
-    "action": "Delete"
+    "option": "Delete local data"
   }
 }

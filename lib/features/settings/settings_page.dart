@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
                           await StorageService.getTasks();
                     }
                   },
-                  child: Text(t.settings.storage.action),
+                  child: const Icon(CupertinoIcons.delete),
                 )
               ],
             )

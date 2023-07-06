@@ -1,7 +1,6 @@
 {
   "title": "Paramètres",
   "storage": {
-    "option": "Supprimer les données locales",
-    "action": "Supprimer"
+    "option": "Supprimer les données locales"
   }
 }
