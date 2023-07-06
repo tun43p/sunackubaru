@@ -4,6 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunackubaru/features/tasks/tasks_model.dart';
 
 class StorageService {
+  static Future<void> clearStorage() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    await sharedPreferences.clear();
+  }
+
   static Future<void> setTasks(List<Task> tasks) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
