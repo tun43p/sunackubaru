@@ -121,38 +121,42 @@ class _TasksListWidget extends StatelessWidget {
     final TasksProvider state = context.watch<TasksProvider>();
     final TasksProvider notifier = context.read<TasksProvider>();
 
-    return CupertinoListSection(
-      header: Text(t.tasks.title),
-      children: state.tasks
-          .map(
-            (Task task) {
-              final bool isCurrentTask = task.name == state.currentTask?.name;
+    return Padding(
+      padding: const EdgeInsets.only(top: kDefaultPageSpace),
+      child: CupertinoListSection(
+        margin: EdgeInsets.zero,
+        topMargin: 0,
+        children: state.tasks
+            .map(
+              (Task task) {
+                final bool isCurrentTask = task.name == state.currentTask?.name;
 
-              return CupertinoListTile(
-                key: ValueKey<String>(task.name),
-                title: Text(task.name),
-                additionalInfo: Text(
-                  TasksService.formatDuration(task.duration),
-                ),
-                leading: Icon(
-                  CupertinoIcons.doc_text,
-                  color: isCurrentTask
-                      ? CupertinoColors.systemGreen
-                      : CupertinoColors.systemBlue,
-                ),
-                trailing: CupertinoButton(
-                  onPressed: isCurrentTask && state.running
-                      ? null
-                      : () => notifier.delete(task),
-                  child: const Icon(CupertinoIcons.delete),
-                ),
-                onTap: () => notifier.currentTask = task,
-              );
-            },
-          )
-          .toList()
-          .reversed
-          .toList(),
+                return CupertinoListTile(
+                  key: ValueKey<String>(task.name),
+                  title: Text(task.name),
+                  additionalInfo: Text(
+                    TasksService.formatDuration(task.duration),
+                  ),
+                  leading: Icon(
+                    CupertinoIcons.doc_text,
+                    color: isCurrentTask
+                        ? CupertinoColors.systemGreen
+                        : CupertinoColors.systemBlue,
+                  ),
+                  trailing: CupertinoButton(
+                    onPressed: isCurrentTask && state.running
+                        ? null
+                        : () => notifier.delete(task),
+                    child: const Icon(CupertinoIcons.delete),
+                  ),
+                  onTap: () => notifier.currentTask = task,
+                );
+              },
+            )
+            .toList()
+            .reversed
+            .toList(),
+      ),
     );
   }
 }

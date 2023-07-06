@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sunackubaru/core/i18n/i18n.g.dart';
 import 'package:sunackubaru/core/theme/theme_constants.dart';
 import 'package:sunackubaru/features/settings/settings_page.dart';
@@ -25,7 +26,13 @@ class Sunackubaru extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: t.core.title,
-      theme: const CupertinoThemeData(),
+      theme: const CupertinoThemeData(applyThemeToAll: true),
+      localizationsDelegates: const <LocalizationsDelegate<Object>>[
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: AppLocaleUtils.supportedLocales,
       home: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(t.core.title),
