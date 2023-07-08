@@ -1,0 +1,9 @@
+{
+  "title": "Tasks",
+  "task_name": "Task name",
+  "errors": {
+    "no_current_task": "No current task",
+    "no_task_name": "Please enter a task name",
+    "task_already_exists": "A task with that name already exists"
+  }
+}

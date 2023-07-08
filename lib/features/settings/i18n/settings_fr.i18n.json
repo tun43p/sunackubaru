@@ -1,0 +1,9 @@
+{
+  "title": "Paramètres",
+  "github": {
+    "placeholder": "Votre jeton d'API GitHub"
+  },
+  "storage": {
+    "option": "Supprimer les données locales"
+  }
+}
